@@ -13,9 +13,9 @@ function App() {
   
   return(
     <Routes>
-      <Route path='/login' element={<AuthPage/>} />
+      <Route path='/LiveLinkWeb/login' element={<AuthPage/>} />
       <Route 
-      path='/'
+      path='/LiveLinkWeb/'
       element={
         <ProtectedRoute>
           <ChatPage/>

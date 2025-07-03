@@ -5,7 +5,7 @@ function ProtectedRoute({ children }) {
   const { userName } = useAuth()
  
   if (!userName ) {
-      return <Navigate to="/login" replace />;
+      return <Navigate to="/LiveLinkWeb/login" replace />;
   }
 
   return children

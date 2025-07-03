@@ -15,7 +15,7 @@ export function SocketProvider({ children }) {
   useEffect(() => {
     if (!userName) return
 
-    const newSocket = io('http://localhost:5000', {
+    const newSocket = io('https://livelinkserver.onrender.com', {
       auth: {
         userName: userName,
       },

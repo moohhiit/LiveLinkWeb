@@ -16,18 +16,18 @@ const AuthPage = () => {
   const handleLogin = (e) => {
     e.preventDefault()
     login(email, password)
-    navigate('/')
+    navigate('/LiveLinkWeb/')
   }
 
   const handleSignup = (e) => {
     e.preventDefault();
 
     Signup(email, password, name)
-    navigate('/')
+    navigate('/LiveLinkWeb/')
   }
   useEffect(() => {
     if (userName) {
-      navigate('/');
+      navigate('/LiveLinkWeb/');
     }
   }, [userName, navigate]);
   return (
