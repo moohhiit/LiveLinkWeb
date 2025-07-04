@@ -18,9 +18,12 @@ export default function ChatPage() {
     const handleSendMessage = (text) => {
         if (!selectedContact) return;
         sendPrivateMessage(socketId, selectedContact.id, text)
-  
+
 
     };
+    const roomlist = [
+      
+    ]
 
     useEffect(() => {
         if (selectedContact) {
@@ -35,7 +38,7 @@ export default function ChatPage() {
 
                 <ContactList
                     privateList={onlineUserList}
-
+                    roomList={roomlist}
                     onSelect={setSelectedContact}
                     selectedId={selectedContact?.id}
                     mode={mode}
@@ -46,6 +49,7 @@ export default function ChatPage() {
                     contact={selectedContact}
                     messages={messages}
                     onSend={handleSendMessage}
+                    mode={mode}
                 />
             </div>
         </div>
