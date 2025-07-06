@@ -8,22 +8,16 @@ const MessageContext = createContext()
 export function MessgaeProvider({ children }) {
     const { socket } = useSocket()
     const [messages, setmessages] = useState([])
-    const [chatkey, setchatkey] = useState()
 
 
 
-    const synceMesage = () => {
-        if (chatkey) {
-
-            const msg = localStorage.getItem(chatkey)
-            setmessages(msg ? JSON.parse(msg) : [])
-        }
+    const synceMesage = (touid) => {
+        const msg = localStorage.getItem(touid)
+        setmessages(msg ? JSON.parse(msg) : [])
     }
 
-    const locateStoreage = (fromUid, toUid) => {
-        const chatKey = `chat_${[fromUid, toUid].sort().join('_')}`;
-        setchatkey(chatKey)
-        localStorage.setItem(chatKey, JSON.stringify(messages));
+    const locateStoreage = (toUid) => {
+        localStorage.setItem(toUid, JSON.stringify(messages));
     }
 
 
@@ -39,7 +33,7 @@ export function MessgaeProvider({ children }) {
         }
         const updated = [...messages, mmsg];
         setmessages(updated)
-        localStorage.setItem(chatkey, updated)
+        localStorage.setItem(to, JSON.stringify(updated))
 
     }
     useEffect(() => {
@@ -49,7 +43,7 @@ export function MessgaeProvider({ children }) {
                 const update = [...messages, m]
                 setmessages(update)
 
-                localStorage.setItem(chatkey, update)
+                localStorage.setItem(m.from, JSON.stringify(update))
             })
         }
     })

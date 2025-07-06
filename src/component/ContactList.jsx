@@ -1,12 +1,11 @@
 import React from 'react';
 import { useSocket } from '../Context/SocketContext';
 import { useEffect } from 'react';
+import BrainCoreCanvas from '../assets/BrainCoreCanvas';
 
 const ContactList = ({ privateList, contacts, onSelect, selectedId, mode, setMode, roomList }) => {
     const { socketId } = useSocket()
-    useEffect(() => {
-        console.log(privateList.length)
-    })
+    
     return (
         <div className="w-full md:w-1/3 bg-gray-100 p-4 border-r overflow-y-auto text-black flex flex-col">
             <h2 className="text-xl font-bold mb-4 text-center">LiveLink</h2>
@@ -14,9 +13,10 @@ const ContactList = ({ privateList, contacts, onSelect, selectedId, mode, setMod
             <div className="flex justify-between space-x-1 mb-4">
 
                 <div
-                    onClick={() =>{ 
+                    onClick={() => {
                         onSelect(null)
-                        setMode('room')}}
+                        setMode('room')
+                    }}
                     className={`cursor-pointer px-4 py-1 rounded-full text-sm font-medium ${mode === 'room'
                         ? 'bg-white text-black shadow'
                         : 'bg-gray-100 text-gray-700 '
@@ -27,7 +27,8 @@ const ContactList = ({ privateList, contacts, onSelect, selectedId, mode, setMod
                 <div
                     onClick={() => {
                         onSelect(null)
-                        setMode('private')}}
+                        setMode('private')
+                    }}
                     className={`cursor-pointer px-4 py-1 rounded-full text-sm font-medium ${mode === 'private'
                         ? 'bg-white text-black shadow'
                         : 'bg-gray-100 text-gray-700 '
@@ -38,7 +39,8 @@ const ContactList = ({ privateList, contacts, onSelect, selectedId, mode, setMod
                 <div
                     onClick={() => {
                         onSelect(null)
-                        setMode('AI')}}
+                        setMode('AI')
+                    }}
                     className={`cursor-pointer px-6 py-1 rounded-full text-sm font-medium ${mode === 'AI'
                         ? 'bg-white text-black shadow'
                         : 'bg-gray-100 text-gray-700 '
@@ -50,10 +52,10 @@ const ContactList = ({ privateList, contacts, onSelect, selectedId, mode, setMod
 
             <ul className="space-y-2">
                 {
-                    mode === 'room' ?
+                    mode === 'room' && mode != 'AI' ?
                         <>
                             {
-                                roomList.length > 1 ? <>
+                                roomList.length > 0 ? <>
 
                                     {roomList.map((room) => {
 
@@ -83,7 +85,7 @@ const ContactList = ({ privateList, contacts, onSelect, selectedId, mode, setMod
 
                         </> : <>
                             {
-                                privateList.length > 1 ?
+                                privateList.length > 1 && mode != "AI" ?
                                     <>
                                         {privateList.map((contact) => {
 
@@ -107,13 +109,26 @@ const ContactList = ({ privateList, contacts, onSelect, selectedId, mode, setMod
 
                                     </> :
                                     <>
-                                        <p className="text-xl">No Persion is Live</p>
+                                      { mode != "AI" ?<p className="text-xl">No One is Live</p> :null}
                                     </>
                             }
                         </>
                 }
+                {
+                    mode == "AI" ? <li
+                      
+                        onClick={() => onSelect({id : "22082005" , username : "Pavika"})}
+                        className={`p-2 flex items-center gap-3 cursor-pointer rounded hover:bg-gray-200 justify-center`}
+                       
+                    >
+                        <BrainCoreCanvas size={35}/>
+                        <span className='text-center'> Pavika <span className='text-xs text-gray-800' >*_*Pavi</span></span>
+                    </li> : null
+                }
 
             </ul>
+
+
         </div>
     );
 };

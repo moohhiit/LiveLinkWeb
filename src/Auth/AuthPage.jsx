@@ -9,8 +9,9 @@ const AuthPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setname] = useState('')
+  const [notify, setnotify] = useState(true)
 
-  const { userName, login, Signup } = useAuth()
+  const { userName, login, Signup, serverStatus, isconnected } = useAuth()
   const navigate = useNavigate()
 
   const handleLogin = (e) => {
@@ -30,9 +31,29 @@ const AuthPage = () => {
       navigate('/LiveLinkWeb');
     }
   }, [userName, navigate]);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setnotify(!isconnected)
+    }, 3000);
+
+  }, [isconnected])
+
   return (
     <div className="h-screen w-screen flex items-center justify-center bg-gray-100">
+      {
+        notify ?
+          <div
+            className={`${isconnected ? "bg-green-500" : "bg-red-500"} text-white px-4 py-2 rounded shadow-md animate-slide-down 
+                 fixed z-50 top-4 right-4 sm:right-4 sm:top-4 sm:left-auto 
+                 left-1/2 transform -translate-x-1/2 sm:translate-x-0 
+                 w-[90%] sm:w-auto text-center`}
+          >
+            {serverStatus}
+          </div> : null
+      }
       <div className="bg-white p-8 rounded-xl shadow-xl w-full max-w-sm text-black">
+
         <h2 className="text-2xl font-bold mb-6 text-center">
           {mode === 'login' ? 'Login' : 'Sign Up'}
         </h2>

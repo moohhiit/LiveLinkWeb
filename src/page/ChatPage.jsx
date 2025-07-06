@@ -17,9 +17,13 @@ export default function ChatPage() {
 
     const handleSendMessage = (text) => {
         if (!selectedContact) return;
+        if(mode == "room"){
+            console.log("Meaagein Room")
+        }
+        if(mode == "AI"){
+            console.log("Message to Ai ")
+        }
         sendPrivateMessage(socketId, selectedContact.id, text)
-
-
     };
     const roomlist = [
       
@@ -27,8 +31,8 @@ export default function ChatPage() {
 
     useEffect(() => {
         if (selectedContact) {
-            locateStoreage(socketId, selectedContact.id)
-            // synceMesage()
+            locateStoreage(selectedContact.id)
+            synceMesage(selectedContact.id)
         }
     }, [selectedContact])
 

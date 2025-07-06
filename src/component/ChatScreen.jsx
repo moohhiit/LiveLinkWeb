@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import MessageInput from './MessageInput';
+import BrainCoreCanvas from '../assets/BrainCoreCanvas';
 
 const ChatScreen = ({ contact, messages, onSend, id, mode }) => {
     const [isCreate, setisCreate] = useState(false)
@@ -9,7 +10,7 @@ const ChatScreen = ({ contact, messages, onSend, id, mode }) => {
                 {
                     mode == "room" ? isCreate ? <>
                         <form onSubmit={() => {
-                            console.log("Submit")
+                            console.log("Room Created Is Treigerd")
                         }}
                             className="space-y-4">
                             <h2 className="text-2xl font-bold mb-6 text-center">
@@ -60,24 +61,56 @@ const ChatScreen = ({ contact, messages, onSend, id, mode }) => {
 
     return (
         <div className="w-full md:w-2/3 flex flex-col p-4 text-black">
-            <h2 className="text-2xl font-semibold mb-4 text-center">
-                Chat with {contact.username}
-            </h2>
+            {
+                contact.id == "22082005" ?
+                    <div className="w-full flex justify-center">
+                        <div className="flex items-center gap-3  px-6 py-3 rounded-xl">
+                            <div className="w-8 h-8">
+                                {messages.length > 0 ? <BrainCoreCanvas size={32} /> : null}
+                            </div>
+                            <h2 className="text-black text-lg font-semibold">Hello, I'm Pavika </h2>
+                        </div>
+                    </div> :
+                    <h2 className="text-2xl font-semibold mb-4 text-center">
+                        Chat with {contact.username}
+                    </h2>
+            }
+
             <div className="flex-1 overflow-y-auto space-y-3 mb-4 px-2 scrollbar-hidden" id="chat-scroll">
-                {messages.map((msg) => (
-                    <div
-                        key={msg.id}
-                        className={`p-3 rounded max-w-xs ${msg.from !== id
-                            ? 'ml-auto bg-blue-200'
-                            : 'mr-auto bg-gray-300'
-                            }`}
-                    >
-                        <p className="text-black">{msg.message}</p>
-                    </div>
-                ))}
+                {
+                    messages.length > 0 ? <>{messages.map((msg) => (
+                        <div
+                            key={msg.id}
+                            className={`p-3 rounded max-w-xs ${msg.from !== id
+                                ? 'ml-auto bg-blue-200'
+                                : 'mr-auto bg-gray-300'
+                                }`}
+                        >
+                            <p className="text-black">{msg.message}</p>
+                        </div>
+                    ))}</> : <>
+
+                        {
+                            mode != "AI" ? null :
+                                <div style={{
+                                    width: "100%",
+                                    height: "300px",
+                                    display: "flex",
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                    borderRadius: "12px",
+                                }} >
+                                    <BrainCoreCanvas />
+                                </div>
+                        }
+                    </>
+                }
+
             </div>
 
-            <MessageInput onSend={onSend} />
+           {mode =="AI" ? <h2 className="text-2xl font-semibold mb-4 text-center">
+                        Currently I am Working On modal
+                    </h2> : <MessageInput onSend={onSend} />}
         </div>
     );
 };
