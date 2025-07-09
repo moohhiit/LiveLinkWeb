@@ -12,21 +12,21 @@ export default function ChatPage() {
     const [mode, setMode] = useState('private');
 
     const { sendPrivateMessage, messages, synceMesage, locateStoreage } = useMessage()
-    const { socket, socketId, onlineUserList } = useSocket()
+    const { socket, socketId, onlineUserList, onlineRoomList } = useSocket()
 
 
     const handleSendMessage = (text) => {
         if (!selectedContact) return;
-        if(mode == "room"){
+        if (mode == "room") {
             console.log("Meaagein Room")
         }
-        if(mode == "AI"){
+        if (mode == "AI") {
             console.log("Message to Ai ")
         }
         sendPrivateMessage(socketId, selectedContact.id, text)
     };
     const roomlist = [
-      
+
     ]
 
     useEffect(() => {
@@ -42,9 +42,9 @@ export default function ChatPage() {
 
                 <ContactList
                     privateList={onlineUserList}
-                    roomList={roomlist}
+                    roomList={onlineRoomList}
                     onSelect={setSelectedContact}
-                    selectedId={selectedContact?.id}
+                    selectedId={mode !== "room" ? selectedContact?.id : selectedContact?.creater_id}
                     mode={mode}
                     setMode={setMode}
                 />

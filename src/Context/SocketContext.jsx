@@ -10,12 +10,18 @@ export function SocketProvider({ children }) {
   const [socketId, setSocketId] = useState(null)
   const [userList, setuserList] = useState([])
   const [onlineUserList, setOnlineUsers] = useState([])
- 
+  const [onlineRoomList, setonlineRoomList] = useState([])
+
+
+  const create_room = (room_name, creater_id) => {
+    socket.emit("room_create", { room_name, creater_id })
+  }
+
   
   useEffect(() => {
     if (!userName) return
 
-    const newSocket = io('https://livelinkserver.onrender.com', {
+    const newSocket = io('http://localhost:5000', {
       auth: {
         userName: userName,
       },
@@ -26,7 +32,9 @@ export function SocketProvider({ children }) {
       setOnlineUsers(users);
     });
 
-
+    newSocket.on("update-room", (room) => {
+      setonlineRoomList(room)
+    })
     newSocket.on('connect', () => {
       setsocket(newSocket)
       setSocketId(newSocket.id)
@@ -43,7 +51,7 @@ export function SocketProvider({ children }) {
   }, [userName])
 
   return (
-    <SocketContext.Provider value={{ socket, socketId, onlineUserList }}>
+    <SocketContext.Provider value={{ socket, socketId, onlineUserList, onlineRoomList, create_room }}>
       {children}
     </SocketContext.Provider>
   )

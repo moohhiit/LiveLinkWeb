@@ -66,11 +66,11 @@ const ContactList = ({ privateList, contacts, onSelect, selectedId, mode, setMod
                                                 <li
                                                     key={room.id}
                                                     onClick={() => onSelect(room)}
-                                                    className={`p-2 flex items-center gap-3 cursor-pointer rounded hover:bg-gray-200 ${selectedId === room.id ? 'bg-gray-300' : ''
+                                                    className={`p-2 flex items-center gap-3 cursor-pointer rounded hover:bg-gray-200 ${selectedId === room.creater_id ? 'bg-gray-300' : ''
                                                         }`}
                                                 >
 
-                                                    <span className="text-left">{room.roomName} <span className='text-xs text-gray-800' >{`#${room.roomId}`}</span> </span>
+                                                    <span className="text-left">{room.room_name} <span className='text-xs text-gray-800' >{`#${room.creater_id}`}</span> </span>
                                                 </li>
                                                 : null
                                         )

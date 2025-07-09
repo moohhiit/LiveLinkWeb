@@ -11,7 +11,7 @@ export function AuthProvider({ children }) {
   const [isconnected , setisconnected] = useState(false)
 
   const API = axios.create({
-    baseURL: 'https://livelinkserver.onrender.com/api'
+    baseURL: 'http://localhost:5000/api'
   })
 
 
@@ -50,6 +50,7 @@ export function AuthProvider({ children }) {
         clearInterval(interval);
       } catch (error) {
         setServerStatus("Wait Server is unactive due to no user visited it will Started with in a minitues");
+        console.log(error)
       }
     };
 

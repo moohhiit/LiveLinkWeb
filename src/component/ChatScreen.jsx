@@ -1,47 +1,50 @@
 import React, { useState } from 'react';
 import MessageInput from './MessageInput';
 import BrainCoreCanvas from '../assets/BrainCoreCanvas';
+import { useSocket } from '../Context/SocketContext';
 
 const ChatScreen = ({ contact, messages, onSend, id, mode }) => {
     const [isCreate, setisCreate] = useState(false)
+    const [roomName, setroomName] = useState('')
+    const [roomCreated , setroomCreated]= useState(false)
+
+    const { create_room, socketId } = useSocket()
+
+    const handleRoomCreate = () => {
+        create_room(roomName, socketId)
+        setroomName('')
+        isCreate(false)
+
+    }
+
     if (!contact) {
         return (
             <div className="w-full md:w-2/3 flex items-center justify-center text-black">
                 {
                     mode == "room" ? isCreate ? <>
-                        <form onSubmit={() => {
-                            console.log("Room Created Is Treigerd")
-                        }}
+                        <div
                             className="space-y-4">
                             <h2 className="text-2xl font-bold mb-6 text-center">
                                 Create Room
                             </h2>
-
                             <input
                                 type="test"
                                 placeholder="Room Name"
                                 className="w-full p-2 border rounded"
-                                // value={email}
-                                onChange={(e) => console.log(e.target.value)}
+                                value={roomName}
+                                onChange={(e) => setroomName(e.target.value)}
                                 required
                             />
 
-                            <input
-                                type="test"
-                                placeholder="Room Id"
-                                className="w-full p-2 border rounded"
-                                // value={name}
-                                onChange={(e) => console.log(e.target.value)}
-                                required
-                            />
 
                             <button
+                                onClick={handleRoomCreate}
                                 type="submit"
                                 className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600"
                             >
                                 Create Room
                             </button>
-                        </form>
+                        </div>
 
                     </> : <>
                         <button
@@ -72,7 +75,7 @@ const ChatScreen = ({ contact, messages, onSend, id, mode }) => {
                         </div>
                     </div> :
                     <h2 className="text-2xl font-semibold mb-4 text-center">
-                        Chat with {contact.username}
+                        Chat with {contact.username ? contact.username : contact.room_name} 
                     </h2>
             }
 
@@ -108,9 +111,9 @@ const ChatScreen = ({ contact, messages, onSend, id, mode }) => {
 
             </div>
 
-           {mode =="AI" ? <h2 className="text-2xl font-semibold mb-4 text-center">
-                        Currently I am Working On modal
-                    </h2> : <MessageInput onSend={onSend} />}
+            {mode == "AI" ? <h2 className="text-2xl font-semibold mb-4 text-center">
+                Currently I am Working On modal
+            </h2> : <MessageInput onSend={onSend} />}
         </div>
     );
 };

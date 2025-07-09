@@ -20,6 +20,9 @@ export function MessgaeProvider({ children }) {
         localStorage.setItem(toUid, JSON.stringify(messages));
     }
 
+    const sendRoomMessage = ()=>{
+        socket.emit('room_message')
+    }
 
     // semderId = MyId 
 
@@ -38,7 +41,10 @@ export function MessgaeProvider({ children }) {
     }
     useEffect(() => {
         if (socket) {
-
+            socket.on('room_message' , (m)=>{
+                const update = [...messages , m]
+                setmessages(update)
+            })
             socket.on('private_message', (m) => {
                 const update = [...messages, m]
                 setmessages(update)
@@ -50,7 +56,7 @@ export function MessgaeProvider({ children }) {
 
 
     return (
-        <MessageContext.Provider value={{ sendPrivateMessage, messages, synceMesage, locateStoreage }} >
+        <MessageContext.Provider value={{ sendPrivateMessage, messages, synceMesage, locateStoreage ,setmessages}} >
             {children}
         </MessageContext.Provider>
     )
